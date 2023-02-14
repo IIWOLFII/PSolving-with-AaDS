@@ -28,4 +28,4 @@ def convert(num,base,alphabet = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9
         res = res + (alphabet[s.pop()])
     return res
 
-print(convert(26,26))
+print(convert(10011000,10))
