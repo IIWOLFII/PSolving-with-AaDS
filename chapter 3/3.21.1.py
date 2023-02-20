@@ -6,9 +6,9 @@ class Node():
     def __str__(self):
         return str(self.value)
 
-
-class UnOrderedList_O_N():
+class UnOrderedList_O_1():
     def __init__(self):
+        self.tail = None
         self.head = None
 
     def __str__(self):
@@ -22,6 +22,8 @@ class UnOrderedList_O_N():
     def add(self, item):
         item = Node(item)
         item.next = self.head
+        if self.head is None:
+            self.tail = item
         self.head = item
 
     def remove(self, item):
@@ -41,6 +43,9 @@ class UnOrderedList_O_N():
             self.head = current.next
         else:
             previous.next = current.next
+
+        if current == self.tail:
+            self.tail = previous
 
     def search(self, item):
         current = self.head
@@ -66,13 +71,11 @@ class UnOrderedList_O_N():
 
         if self.head is None:
             self.head = item
+            self.tail = item
             return
 
-        current = self.head
-        while current.next is not None:
-            current = current.next
-
-        current.next = item
+        self.tail.next = item
+        self.tail = item
 
     def index(self, item):
         current = self.head
@@ -117,13 +120,18 @@ class UnOrderedList_O_N():
             current = current.next
             count += 1
 
+        if current == self.tail:
+            self.tail = previous
+
         if previous is None:
             self.head = current.next
         else:
             previous.next = current.next
         return current.value
 
-nodes = UnOrderedList_O_N()
+
+
+nodes = UnOrderedList_O_1()
 
 print(nodes)
 
@@ -143,7 +151,6 @@ print(nodes)
 print("Is Second in list? ", nodes.search("Second"))
 
 print(nodes)
-
 
 nodes.remove("Third")
 
@@ -186,12 +193,13 @@ print("POP THE SECOND",nodes.pop(0))
 
 print(nodes)
 
-print("POP THE OVERFLOW",nodes.pop(23))
+print("POP THE INVALID",nodes.pop(23))
 
 print(nodes)
 
-print("head")
+print("head and tail")
 print(nodes.head)
+print(nodes.tail)
 
 nodes.pop()
 nodes.pop()
@@ -203,12 +211,15 @@ print("Adding nodes")
 nodes.append("Does it work")
 
 print(nodes.head)
+print(nodes.tail)
 
 nodes.append("bruh")
 
 print(nodes.head)
+print(nodes.tail)
 
 nodes.remove("bruh")
 
 print(nodes.head)
+print(nodes.tail)
 #nodes.remove("Balls")
