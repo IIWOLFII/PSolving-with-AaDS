@@ -54,7 +54,7 @@ def calcpostifx(expression):
             op_stack.push(char)
     while not op_stack.is_empty():
         result.append(op_stack.pop())
-    return "".join(result)
+    return postfxeval(" ".join(result))
 
 def postfxeval(postfxexp):
     cal = Calculator()
@@ -70,12 +70,15 @@ def postfxeval(postfxexp):
             var2.push(i)
     return var2.pop()
 
-# print(calcpostifx("1*(2+3)*4")) # ABC+*D*
-# print(calcpostifx("A * B + C * D")) # ABC+*D*
-# print(calcpostifx("( A + B ) * C - ( D - E ) * ( F + G )"))
-# print(calcpostifx("( A + B ) * ( C + D )"))
-# print(postfxeval("4 5 6 * +"))
-# print(postfxeval("7 8 + 3 2 + /"))
-# print(postfxeval("17 10 + 3 * 9 /"))
+entering_numbers = True
+a = ""
+print("******||Calculator||******")
+print("******||Enter numbers||******")
+while entering_numbers:
+    inp = input()
+    if inp in ["Stop",""," "]:
+        entering_numbers = False
+    else:
+        a += inp
 
-print(calcpostifx("5*3^(4-2)"))
+print(calcpostifx(a))
