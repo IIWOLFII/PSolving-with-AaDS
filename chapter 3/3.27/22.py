@@ -7,7 +7,6 @@ class LLQueue():
     def __init__(self):
         self.__size = 0
         self.head = None
-        self.tail = None
 
     def dequeue(self):
         if self.head is None:
@@ -23,13 +22,39 @@ class LLQueue():
 
     def enqueue(self, item):
         item = Node(item)
-        if self.head is None:
+        self.__size += 1
+        current = self.head
+        if current is None:
             self.head = item
-            self.tail = item
-            self.__size = 1
             return
-        #TODO: make this thing work i guess
-
+        while current.next is not None:
+            current = current.next
+        current.next = item
 
     def size(self):
         return self.__size
+
+    def __str__(self):
+        li = ""
+        item = self.head
+        while item is not None:
+            li = li + str(item.value) + ","
+            item = item.next
+        return "[" + li[:-1] + "]"
+
+
+q = LLQueue()
+print(q)
+q.enqueue("hello")
+print(q)
+q.enqueue("dog")
+print(q)
+q.enqueue(3)
+print(q)
+q.dequeue()
+print(q)
+print(q.size())
+
+q.dequeue()
+print(q)
+print(q.size())
