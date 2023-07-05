@@ -27,13 +27,8 @@ def main():
     clist = [1, 5, 10, 21, 25]
     coins_used = [0] * (amnt + 1)
     coin_count = [0] * (amnt + 1)
-
-    print(
-        "Making change for {} requires the following {} coins: ".format(  # stop jumping lines you ass
-            amnt, make_change_4(clist, amnt, coin_count, coins_used)
-        ),
-        end="",
-    )
+    # i was so upset i didnt realise that it broke apart cuz of IDE so it wont exceed the styleguide lol
+    print("Making change for {} requires the following {} coins: ".format( amnt, make_change_4(clist, amnt, coin_count, coins_used)),end="",)
     print_coins(coins_used, amnt)
     print("The used list is as follows:")
     print(coins_used)
