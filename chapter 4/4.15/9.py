@@ -3,7 +3,6 @@
 
 def movedisk(frm,to):
     global poles
-
     disk = poles[frm].pop(0)
     print(f"Moved disk {disk} from pole {frm} to pole {to}.")
     poles[to].insert(0,disk)
@@ -23,7 +22,7 @@ def hanoi(frm,to,height):
 
 
 
-pole1 = ['A','B','C','D']
+pole1 = ['A','B','C']
 pole2 = []
 pole3 = []
 poles = [pole1,pole2,pole3]
