@@ -43,7 +43,7 @@ jug4 = jug(4)
 jug3 = jug(3)
 required_amount = 2
 
-# jug4 = jug(5)
+# jug4 = jug(3)
 # jug3 = jug(2)
 # required_amount = 4 idk this is BFS search or whatever, so why is it here
                     # either way, slightly upset that idk how to even approach this

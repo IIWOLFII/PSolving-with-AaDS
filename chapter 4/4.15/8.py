@@ -1,7 +1,7 @@
 #  fibonacci
 
 def fib_up_to_n(num): #maybe i can do it without a list
-    if num <= 1:
+    if num <= 2:
         return 1
 
     calc = fib_up_to_n(num -1) + fib_up_to_n(num -2)
@@ -9,13 +9,14 @@ def fib_up_to_n(num): #maybe i can do it without a list
     return calc
 
 
-numtocount = 14
+print(fib_up_to_n(6))
 
-for i in range(numtocount):
-    result = fib_up_to_n(i)
-    print(fib_up_to_n(i))
-    if result >= numtocount:
-        break
+# numtocount = 4
+# for i in range(numtocount):
+#     result = fib_up_to_n(i)
+#     print(fib_up_to_n(i))
+#     if result >= numtocount:
+#         break
 
 # def fib_up_to_n(num, seq = None):
 #     if not seq:
