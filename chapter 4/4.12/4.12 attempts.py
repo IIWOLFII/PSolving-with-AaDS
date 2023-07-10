@@ -40,6 +40,9 @@ def display_coinhistory(change, usedcoins):
 coins = [1,3,4,5]
 change = 7
 
+coins = [7,14]
+change = 300
+
 dp = DPcoins_tracker(coins,change)
 
 print(f"We get {dp} coins for change of {change}")
