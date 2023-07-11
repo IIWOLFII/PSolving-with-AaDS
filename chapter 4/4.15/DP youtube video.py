@@ -1,50 +1,381 @@
 # https://www.youtube.com/watch?v=oBt53YbR9Kk
 
-def minsum_memo(num, numlist, memo=None):
-    # global calls
-    # calls += 1
-
-    if memo is None:  # memo didnt work for ages bcuz this was // if not memo: // which translates to ...
-        memo = dict()  # ... if len(memo) == 0 or memo is None but i only needed the second one, grrr
-
-    if num in memo:
-        return memo[num]
-    if num < 0:
-        return None
-    if num == 0:
-        return []
-
-    minres = None
-
-    for i in numlist:
-        if i > num:  # reduces calls 496 -> 432 ~ by 15%
-            continue
-
-        res = minsum_memo(num - i, numlist, memo)
-
-        if res is None:
-            continue
-
-        if minres is None or len(res) < len(minres):
-            minres = res + [i]
-
-    memo[num] = minres
-    return minres
 
 
-calls = 0
+def gridTraveler_tab(y, x): # its like linked list loop with slow and fast pointer - it works but makes 0 sense
+    field = [[0] * (y+1) for _ in range(x+1)]
 
-for case in [(8, [2, 3, 5]),  # true 3 5
-             (7, [5, 3, 4, 7]),  # true 7
-             (63, [1, 5, 10, 21, 25]),  # true 21*3
-             (7, [2, 4]),  # false
-             (8, [1, 4, 5]),  # true 4*2
-             (99, [1, 2, 5, 25, 36]),  # true, 36*2 + 25 + 2
-             (300, [7, 14])  # false, 2^m*n
-             ]:
-    print(minsum_memo(*case))
-    # print("Calls:", calls)
-    # calls = 0
+    field[1][1] = 1  # base case of recursive solution
+
+    for cury in range(y+1):  # without +1 it wont reach the y,x we are looking for
+        for curx in range(x+1):
+
+            curtile = field[cury][curx]
+
+            # for i in field:
+            #     print(i)
+            # print(f"Cury:Curx :: {cury}:{curx}")
+            # print("=" * 10)
+
+            if curx+1 <= x:  # check for out of bounds
+                field[cury][curx+1] += curtile  # how in the FUCK can this be out of fucking range fuck you todo: cancer
+            if cury+1 <= y:   # check for out of bounds
+                field[cury+1][curx] += curtile
+
+    # print('DEBUG', "=" *6)
+    # for row in field:
+    #     print(row)
+    # print('DEBUG', "=" *6)
+
+    return field[y][x]
+
+print(gridTraveler_tab(3, 3))
+
+#print(gridTraveler_tab(1, 1))
+print(gridTraveler_tab(2, 3))
+# print(gridTraveler_tab(3, 2))
+# print(gridTraveler_tab(18, 18))
+
+
+# def gridTraveler_BFS(y, x): # NEVERMIND its a complete different logic which i dont get so far
+#     # y += 1  # fucks this whole thing up
+#     # x += 1  #
+#
+#     field = [[0] * y for _ in range(x)]
+#     field[0][0] = 1  # "base case of recursive solution" # is not actually required
+#
+#     queue = [(0, 0)]
+#
+#     while queue:
+#         cury, curx = queue.pop(0)
+#         rightx = curx + 1
+#         downy = cury + 1
+#         if rightx < x:
+#             field[cury][rightx] += 1
+#             queue.append((cury, rightx))
+#         if downy < y:
+#             field[downy][curx] += 1
+#             queue.append((downy, curx))
+#         # print("queue:", queue)  # DEBUG visualization
+#         #
+#         # for i in field:
+#         #     print(i)
+#         # print("=" * 10)
+#     for row in field:
+#         print(row)
+#     return field[y - 1][x - 1]
+#
+# a = gridTraveler_BFS(3, 3)
+# print(a)
+
+
+# def fib_tab(goal):
+#     dp = [0, 1] + ([0] * (goal - 1))
+#
+#     for pos in range(goal):
+#         pointer1 = pos + 1
+#         pointer2 = pointer1 + 1
+#
+#         for pt in [pointer1, pointer2]:
+#             if pt < len(dp):
+#                 dp[pt] += dp[pos]
+#
+#     return dp[goal]
+#
+# print(fib_tab(6))
+# print(fib_tab(7))
+# print(fib_tab(8))
+# print(fib_tab(50))
+
+
+# def fibonacci_tab(goal,bruj): # wrong ## huh you just push through an array thats cool
+#     res = bruj[goal-1] + bruj[goal-2]
+#     return res
+# bruj = [0,1]
+# wanted = 6
+# for i in range(2,wanted+1):
+#     bruj.append(fibonacci_tab(i,bruj))
+# print(bruj[-1])
+# print("="*14)
+# print(bruj)
+
+
+# def allConstruct_memo(target, wordbank, memo = None):  # cleaned up
+#     if memo is None:
+#         memo = {}
+#     if target in memo:
+#         return memo[target]
+#
+#     if target == "":
+#         return [[]]
+#
+#
+#     mem = []
+#     for word in wordbank:
+#         if word not in target:
+#             continue
+#
+#         if target[:len(word)] == word:
+#             res = allConstruct_memo(target[len(word):], wordbank, memo)
+#
+#             for i in range(len(res)):
+#                 mem.append([word] + res[i])
+#
+#     memo[target] = mem
+#     return mem
+#
+#
+#
+# a = allConstruct_memo('abcdef', ['ab', 'abc', 'cd', 'def', 'abcd', 'ef', 'c'])  # true 4
+# print(a)
+#
+# a = allConstruct_memo('purple', ['purp', 'p', 'ur', 'le', 'purpl'])
+# print(a)
+#
+# a = allConstruct_memo('skateboard', ['bo', 'rd', 'ate', 't', 'ska', 'sk', 'boar'])
+# print(a)
+#
+# a = allConstruct_memo('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeez', ['e', 'ee', 'eee', 'eeee', 'eeeee'])
+# print(a) # not the worst case anymore
+
+# a = allConstruct('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', ['e', 'ee', 'eee', 'eeee', 'eeeee'])
+# print(a)
+
+
+# def allConstruct(target, wordbank):  # how is it possible that i keep writing code that does nothing
+#     if target == "":
+#         return [[]]  # controls the final output apparently
+#
+#     mem = False  # empty lists dont get added to list sum so this is pointless
+#     for word in wordbank:
+#         if word not in target:
+#             continue
+#
+#         if target[:len(word)] == word:
+#             res = allConstruct(target[len(word):], wordbank)
+###########################
+#             if res is False: # empty lists dont get added to list sum so this is pointless
+#                 continue     #
+#             else:            #############
+#                 if isinstance(mem,bool): #
+#                     mem = []             # empty lists dont get added to list sum so this is pointless
+###########################
+#                 for i in range(len(res)):  # i just wrote this and then it just works for no reason ok cool
+#                     mem.append([word] + res[i])  # i dont understand why this works
+#
+#     return mem
+#
+#
+#
+# a = allConstruct('abcdef', ['ab', 'abc', 'cd', 'def', 'abcd', 'ef', 'c'])  # true 4
+# print(a)
+#
+# a = allConstruct('purple', ['purp', 'p', 'ur', 'le', 'purpl'])
+# print(a)
+
+# def allConstruct(target, wordbank, memo = None):  # idk how to get this to work # yeah i give up, fuck recursion
+#     print('|')                                  # despite everything i have no coherent grasp on how this works
+#                                                 # works on paper but not here, fuck you allConstruct()
+#     if target == "":
+#         return []
+#
+#     mem = False
+#     biglist = []
+#     for word in wordbank:
+#         if word not in target:
+#             continue
+#
+#         if target[:len(word)] == word:
+#             res = allConstruct(target[len(word):], wordbank)  # idk at what point i already have full words
+#             if res is False:
+#                 continue
+#             else:
+#                 if isinstance(mem,bool):
+#                     mem = []
+#                     mem. append([word])
+#                 else:
+#                     if isinstance(res,str): print("ITS A STRING HOW???", res)
+#                     for i in res:
+#                         i.append(word)
+#                         return res
+#     print(mem)
+#     #print(mem)
+#     return mem
+#
+#
+# print(allConstruct('purple', ['purp', 'p', 'ur', 'le', 'purpl']))  # true 2
+# # print(allConstruct('', ['cat', 'mouse']))  # true
+# # print(allConstruct('enterapotentpot', ['a', 'p', 'ent', 'enter', 'ot', 'o', 't']))  # true
+# #print(allConstruct('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef', ['e', 'ee', 'eee', 'eeee', 'eeeee', 'eeeeee']))  # false
+
+
+# def countConstruct_memo(target, wordbank, memo = None):
+#     if memo is None:
+#         memo = dict()
+#
+#     if target in memo:
+#         return memo[target]
+#     if target == "":
+#         return 1
+#
+#     res = 0
+#
+#     for word in wordbank:
+#         if word not in target:
+#             continue
+#
+#         if target[:len(word)] == word:
+#             res += countConstruct_memo(target[len(word):], wordbank, memo)
+#
+#     memo[target] = res
+#     return res
+#
+#
+# print(countConstruct_memo('abcdef', ["ab", "abc", "cd", "def", "abcd"]))  # true
+# print(countConstruct_memo('purple', ['purp', 'p', 'ur', 'le', 'purpl']))  # true 2
+# print(countConstruct_memo('', ['cat', 'mouse']))  # true
+# print(countConstruct_memo('enterapotentpot', ['a', 'p', 'ent', 'enter', 'ot', 'o', 't']))  # true
+# print(countConstruct_memo('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef', ['e', 'ee', 'eee', 'eeee', 'eeeee', 'eeeeee']))  # false
+
+
+# def countConstruct_memo(target, wordbank, memo = None): #returns the used constructs, is not what needed from this fun
+#     if memo is None:
+#         memo = dict()
+#
+#     if target in memo:
+#         return memo[target]
+#
+#     if target == "":
+#         return ""
+#
+#     res = False
+#
+#     for word in wordbank:
+#         if word not in target:
+#             continue
+#
+#         if target[:len(word)] == word:
+#             res = countConstruct_memo(target[len(word):], wordbank, memo)
+#             if res is not False:
+#                 res = word + "," + res
+#                 break
+#
+#     memo[target] = res
+#     return res
+#
+#
+# print(countConstruct_memo('abcdef', ["ab", "abc", "cd", "def", "abcd"]))  # true
+# print(countConstruct_memo('skateboard', ['bo', 'rd', 'ate', 't', 'ska', 'sk', 'boar']))  # false
+# print(countConstruct_memo('', ['cat', 'mouse']))  # true
+# print(countConstruct_memo('enterapotentpot', ['a', 'p', 'ent', 'enter', 'ot', 'o', 't']))  # true
+# print(countConstruct_memo('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef', ['e', 'ee', 'eee', 'eeee', 'eeeee', 'eeeeee']))  # false
+
+
+# def canConstruct_memo(target, wordbank, memo = None): #O((n*m^2) time O(m^2) space
+#     if memo is None:
+#         memo = dict()
+#
+#     if target in memo:
+#         return memo[target]
+#     if target == "":
+#         return True
+#
+#     res = False
+#
+#     for word in wordbank:
+#         if word not in target:
+#             continue
+#
+#         if target[:len(word)] == word:
+#             res = canConstruct_memo(target[len(word):], wordbank, memo)
+#
+#         if res:
+#             break
+#
+#     memo[target] = res
+#     return res
+#
+#
+# print(canConstruct_memo('abcdef', ["ab", "abc", "cd", "def", "abcd"]))  # true
+# print(canConstruct_memo('skateboard', ['bo', 'rd', 'ate', 't', 'ska', 'sk', 'boar']))  # false
+# print(canConstruct_memo('', ['cat', 'mouse']))  # true
+# print(canConstruct_memo('enterapotentpot', ['a', 'p', 'ent', 'enter', 'ot', 'o', 't']))  # true
+# print(canConstruct_memo('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef', ['e', 'ee', 'eee', 'eeee', 'eeeee', 'eeeeee']))  # false
+
+
+# def canConstruct(target,wordbank): #O((n^m)*m) time O(m^2) space
+#     if target == "":
+#         return True
+#
+#     beg = end = False
+#
+#     for word in wordbank:
+#         if word not in target:
+#             continue
+#
+#         if target[:len(word)] == word:
+#             beg = canConstruct(target[len(word):], wordbank)
+#
+#         # print(f"target[len(word):] == word ::: {target[len(word):]} == {word}")
+#         # if target[len(word):] == word: # we dont actually need this i guess, it wont ever get there
+#         #     end = canConstruct(target[:len(word)], wordbank)
+#
+#         if beg: # or end
+#             return True
+#
+#     return False
+#
+# print(canConstruct('abcdef', ["ab","abc","cd","def","abcd"])) #true
+# print(canConstruct('skateboard', ['bo', 'rd', 'ate', 't', 'ska', 'sk', 'boar'])) #false
+# print(canConstruct('', ['cat','mouse'])) #true
+# print(canConstruct('enterapotentpot', ['a','p','ent', 'enter', 'ot', 'o', 't'])) #true
+# print(canConstruct('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef', ['e','ee','eee', 'eeee', 'eeeee', 'eeeeee'])) #false
+
+# def minsum_memo(num, numlist, memo=None):
+#     # global calls
+#     # calls += 1
+#
+#     if memo is None:  # memo didnt work for ages bcuz this was // if not memo: // which translates to ...
+#         memo = dict()  # ... // if len(memo) == 0 or memo is None // but i only needed the second condition, grrr
+#
+#     if num in memo:
+#         return memo[num]
+#     if num < 0:
+#         return None
+#     if num == 0:
+#         return []
+#
+#     minres = None
+#
+#     for i in numlist:
+#         if i > num:  # reduces calls 496 -> 432 ~ by 15%
+#             continue
+#
+#         res = minsum_memo(num - i, numlist, memo)
+#
+#         if res is None:
+#             continue
+#
+#         if minres is None or len(res) < len(minres):
+#             minres = res + [i]
+#
+#     memo[num] = minres
+#     return minres
+#
+#
+# calls = 0
+#
+# for case in [(8, [2, 3, 5]),  # true 3 5
+#              (7, [5, 3, 4, 7]),  # true 7
+#              (63, [1, 5, 10, 21, 25]),  # true 21*3
+#              (7, [2, 4]),  # false
+#              (8, [1, 4, 5]),  # true 4*2
+#              (99, [1, 2, 5, 25, 36]),  # true, 36*2 + 25 + 2
+#              (300, [7, 14])  # false, 2^m*n
+#              ]:
+#     print(minsum_memo(*case))
+#     # print("Calls:", calls)
+#     # calls = 0
 
 # def howsum_memo(num, numlist, memo=None):  # looks better
 #     if not memo:
@@ -238,8 +569,8 @@ for case in [(8, [2, 3, 5]),  # true 3 5
 #         memo[(x,y)] = travel_memo(y - 1, x, memo) + travel_memo(y, x - 1, memo)
 #         return memo[(x,y)]
 #
-# m = 3
-# n = 4  # m x n grid ---- 10 exit paths
+# m = 2
+# n = 2  # m x n grid ---- 10 exit paths
 #
 # e = dict()
 # res = travel_memo(m, n, e)
