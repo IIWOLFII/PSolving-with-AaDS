@@ -1,39 +1,110 @@
 # https://www.youtube.com/watch?v=oBt53YbR9Kk
 
+# personal tabulation observation: tabulation is not about finding something out then backtracing or doing anything ..
+# .. else really, its about just slapping values on top of each other so you can return tab[goal] and it will be correct
+
+def howsum_tab(goal, numlist):  # got the right result by accident, feelsbadman
+    tablist = [False] * (goal + 1)
+    tablist[0] = []
+
+    for position in range(goal+1):
+        if tablist[position] is False:
+            continue
+
+        for num in numlist:
+            if (position + num) > goal:  # oob check
+                continue
+
+            tablist[position+num] = tablist[position] + [num]
+
+            # print(f'tab+num from {position} at {position+num}', tablist[position+num])
 
 
-def gridTraveler_tab(y, x): # its like linked list loop with slow and fast pointer - it works but makes 0 sense
-    field = [[0] * (y+1) for _ in range(x+1)]
+            # if tablist[position+num] == goal:  # no need for early return, although if we overshoot, we might want ...
+            #     return tablist[position]  # ... to stop since there is no way we can get to say 8 if we're at 9 with no success
 
-    field[1][1] = 1  # base case of recursive solution
+    return tablist[goal]
 
-    for cury in range(y+1):  # without +1 it wont reach the y,x we are looking for
-        for curx in range(x+1):
+print(howsum_tab(7, [2, 3]))  # t
+# print(howsum_tab(7, [5, 3, 4, 7]))  # t
+# print(howsum_tab(7, [2, 4]))  # f
+# print(howsum_tab(8, [2, 3, 5]))  # t
+# print(howsum_tab(300, [7, 14]))  # f
 
-            curtile = field[cury][curx]
 
-            # for i in field:
-            #     print(i)
-            # print(f"Cury:Curx :: {cury}:{curx}")
-            # print("=" * 10)
+# def cansum_tab(goal, numlist):
+#     tablist = [False] * (goal + 1)
+#     tablist[0] = True
+#
+#
+#     for position in range(goal+1):
+#         if not tablist[position]:
+#             continue
+#
+#         for num in numlist:
+#
+#             if (position + num) > goal:  # oob check
+#                 continue
+#
+#             tablist[position+num] = True
+#
+#     return tablist[goal]
+#
+# print(cansum_tab(7,[2,3]))  # t
+# print(cansum_tab(7,[5,3,4,7]))  # t
+# print(cansum_tab(7,[2,4]))  # f
+# print(cansum_tab(8,[2,3,5]))  # t
+# print(cansum_tab(300,[7,14]))  # f
 
-            if curx+1 <= x:  # check for out of bounds
-                field[cury][curx+1] += curtile  # how in the FUCK can this be out of fucking range fuck you todo: cancer
-            if cury+1 <= y:   # check for out of bounds
-                field[cury+1][curx] += curtile
 
-    # print('DEBUG', "=" *6)
-    # for row in field:
-    #     print(row)
-    # print('DEBUG', "=" *6)
+# def cansum_tab(goal, numlist):  # always returns true, does not work
+#     tablist = [False] * (goal + 1)
+#
+#     for position in range(len(tablist)+1):
+#         for num in numlist:
+#             if (position + num) > goal:  # oob check
+#                 continue
+#
+#             if position + num == goal:
+#                 tablist[position+num] = True
+#                 tablist[position] = True
+#
+#     return tablist[goal]
+#
+# print(cansum_tab(7,[2,3]))  # t
+# print(cansum_tab(7,[5,3,4,7]))  # t
+# print(cansum_tab(7,[2,4]))  # f
+# print(cansum_tab(8,[2,3,5]))  # t
+# print(cansum_tab(300,[7,14]))  # f
 
-    return field[y][x]
 
-print(gridTraveler_tab(3, 3))
 
-#print(gridTraveler_tab(1, 1))
-print(gridTraveler_tab(2, 3))
+# def gridTraveler_tab(y, x): # its like linked list loop with slow and fast pointer - it works but makes 0 sense
+#     field = [[0] * (x+1) for _ in range(y+1)]  # ffs i misplaced x and y all the way over here fuck me fuck me
+#
+#     field[1][1] = 1  # base case of recursive solution
+#
+#     for cury in range(y+1):  # without +1 it wont reach the y,x we are looking for
+#         for curx in range(x+1):
+#
+#             curtile = field[cury][curx]
+#
+#             if curx+1 <= x:  # check for out of bounds
+#                 field[cury][curx+1] += curtile  # how in the FUCK can this be out of fucking range fuck you UPD: dont assume anything, test EVERYTHING (i fucked up at very first line of fun)
+#             if cury+1 <= y:   # check for out of bounds
+#                 field[cury+1][curx] += curtile
+#
+#     # print('DEBUG', "=" *6)
+#     # for row in field:
+#     #     print(row)
+#     # print('DEBUG', "=" *6)
+#     return field[y][x]
+#
+#
+# print(gridTraveler_tab(1, 1))
+# print(gridTraveler_tab(2, 3))
 # print(gridTraveler_tab(3, 2))
+# print(gridTraveler_tab(3, 3))
 # print(gridTraveler_tab(18, 18))
 
 
