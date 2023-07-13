@@ -1,31 +1,172 @@
 # https://www.youtube.com/watch?v=oBt53YbR9Kk
 
+def countconstruct(target, wordbank):
+    tab = [0] * (len(target) + 1)
+    tab[0] = 1
+
+    for i in range(len(target)):
+        for word in wordbank:
+            slice = target[i:i+len(word)]
+
+            if slice == word:
+                tab[i+len(word)] += tab[i]
+
+    #print(tab)
+    return tab[-1]
+
+print(countconstruct('', ['purp', 'p', 'ur', 'le', 'purpl']))  # 1
+print(countconstruct('purple', ['purp', 'p', 'ur', 'le', 'purpl']))  # 2
+print(countconstruct('abcdef', ['ab', 'abc', 'cd', 'def', 'abcd']))  # true
+print(countconstruct('skateboard', ['bo', 'rd', 'ate', 't', 'ska', 'sk', 'boar']))  # false
+print(countconstruct('enterapotentpot', ['a', 'p', 'ent', 'enter', 'ot', 'o', 't']))  # true
+print(countconstruct('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeez', ['e', 'ee', 'eee', 'eeee', 'eeeee']))  #false
+
+
+# def howconstruct(target, wordbank):
+#     tab = [None] * (len(target) + 1)
+#     tab[0] = []
+#
+#     for i in range(len(target)):
+#         if tab[i] is None:
+#             continue
+#
+#         for word in wordbank:
+#             slice = target[i:i+len(word)]
+#
+#             if slice == word:
+#                 tab[i+len(word)] = tab[i] + [word]
+#
+#     return tab[-1]
+#
+# print(howconstruct('abcdef', ['ab', 'abc', 'cd', 'def', 'abcd']))  # true
+# print(howconstruct('skateboard', ['bo', 'rd', 'ate', 't', 'ska', 'sk', 'boar']))  # false
+# print(howconstruct('enterapotentpot', ['a', 'p', 'ent', 'enter', 'ot', 'o', 't']))  # true
+# print(howconstruct('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeez', ['e', 'ee', 'eee', 'eeee', 'eeeee']))  #f alse
+
+
+
+# def canconstruct(target, wordbank):
+#     tab = [False] * (len(target) + 1)
+#     tab[0] = True
+#
+#     for i in range(len(target)):
+#         if tab[i] is False:
+#             continue
+#
+#         for word in wordbank:
+#             slice = target[i:i+len(word)]
+#
+#             if slice == word:
+#                 tab[i+len(word)] = True
+#
+#     return tab[-1]
+#
+# print(canconstruct('abcdef', ['ab', 'abc', 'cd', 'def', 'abcd']))  # true
+# print(canconstruct('skateboard', ['bo', 'rd', 'ate', 't', 'ska', 'sk', 'boar']))  # false
+# print(canconstruct('enterapotentpot', ['a', 'p', 'ent', 'enter', 'ot', 'o', 't']))  # true
+# print(canconstruct('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeez', ['e', 'ee', 'eee', 'eeee', 'eeeee']))  #f alse
+
+
+# nevermind this is not how you do this at all
+# doesnt work anyway :(
+#
+# def canconstruct(target, wordbank):  # we expand window from no letter to full word letter by symbol, while checking ..
+#     # .. whether words from wordbank can be fitted from the end of the slice, no reason to cut the window in case of ..
+#     # .. match since target word can be in wordbank, that would deny it from succeeding
+#
+#     tab = [False] * (len(target) + 1)
+#     tab[0] = True  # do this so empty string base case returns True
+#
+#     for i in range(1, len(tab)):
+#
+#         fragment = target[:i]
+#
+#         for word in wordbank:
+#             if len(word) > len(fragment):  # if word is abc, its too big for fragment of ab, skip that word
+#                 continue
+#
+#
+#             if fragment[i-len(word):i] == word:  # check len of word from the end of the slice for fit
+#                 tab[i] = True
+#
+#     return tab[-1]
+#
+# print(canconstruct('abcdef', ['ab', 'abc', 'cd', 'def', 'abcd']))
+# print(canconstruct('skateboard', ['bo', 'rd', 'ate', 't', 'ska', 'sk', 'boar']))
+# print(canconstruct('enterapotentpot', ['a', 'p', 'ent', 'enter', 'ot', 'o', 't']))
+# print(canconstruct('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeez', ['e', 'ee', 'eee', 'eeee', 'eeeee']))
+
+
+
+# def canconstruct(target,wordbank):  # struggling to figure it out on my own
+#     tab = [False] * (len(wordbank))
+#
+#     for word,j in zip(wordbank,range(len(wordbank))):
+#         if target[:len(word)] == word:
+#             print(target[:len(word)])
+#             tab[j] = target[:len(word)]
+#
+#
+#         print(tab)  # i dont get it
+# print(canconstruct('abcab',['abc','ab','c']))
+
+
+# def bestsum_tab(goal, numlist):  # whiteboarding is OP, figured out the solution on previous problem
+#     tablist = [None] * (goal + 1)
+#     tablist[0] = []
+#
+#     for curposition in range(goal+1):
+#         if tablist[curposition] is None:
+#             continue
+#
+#         for num in numlist:
+#             if (curposition + num) > goal:  # oob check
+#                 continue
+#
+#             steppos = curposition+num
+#             stepvalue = tablist[curposition] + [num]
+#
+#             if tablist[steppos] is None or len(tablist[steppos]) > len(stepvalue):
+#                 tablist[steppos] = stepvalue
+#
+#     return tablist[goal]
+#
+# print(bestsum_tab(7, [5,3,4,7]))  # [7]
+# print(bestsum_tab(8, [2,3,5]))  # [3, 5]
+# print(bestsum_tab(8, [1,4,5]))  # [4, 4]
+# print(bestsum_tab(100, [1,2,5,25]))  # [25, 25, 25, 25]
+
+
 # personal tabulation observation: tabulation is not about finding something out then backtracing or doing anything ..
-# .. else really, its about just slapping values on top of each other so you can return tab[goal] and it will be correct
+# .. else really, its about just slapping values on top of each other so you can return tab[goal] so it will be correct
 
-def howsum_tab(goal, numlist):  # got the right result by accident, feelsbadman
-    tablist = [False] * (goal + 1)
-    tablist[0] = []
+# key is to think about what will change throughout the problem - usually the attribute that is decreased ..
+# .. or built up to during tabulation aka if attribute will never decrease in anything then its not it
 
-    for position in range(goal+1):
-        if tablist[position] is False:
-            continue
-
-        for num in numlist:
-            if (position + num) > goal:  # oob check
-                continue
-
-            tablist[position+num] = tablist[position] + [num]
-
-            # print(f'tab+num from {position} at {position+num}', tablist[position+num])
-
-
-            # if tablist[position+num] == goal:  # no need for early return, although if we overshoot, we might want ...
-            #     return tablist[position]  # ... to stop since there is no way we can get to say 8 if we're at 9 with no success
-
-    return tablist[goal]
-
-print(howsum_tab(7, [2, 3]))  # t
+# def howsum_tab(goal, numlist):  # got the right result by accident, feelsbadman
+#     tablist = [False] * (goal + 1)
+#     tablist[0] = []
+#
+#     for position in range(goal+1):
+#         if tablist[position] is False:
+#             continue
+#
+#         for num in numlist:
+#             if (position + num) > goal:  # oob check
+#                 continue
+#
+#             tablist[position+num] = tablist[position] + [num]
+#
+#             # print(f'tab+num from {position} at {position+num}', tablist[position+num])
+#
+#
+#             # if tablist[position+num] == goal:  # no need for early return, although if we overshoot, we might want ...
+#             #     return tablist[position]  # ... to stop since there is no way we can get to say 8 if we're at 9 with no success
+#             # nevermind, dont early return at all ever in tabulation
+#
+#     return tablist[goal]
+#
+# print(howsum_tab(7, [2, 3]))  # t
 # print(howsum_tab(7, [5, 3, 4, 7]))  # t
 # print(howsum_tab(7, [2, 4]))  # f
 # print(howsum_tab(8, [2, 3, 5]))  # t
@@ -42,7 +183,6 @@ print(howsum_tab(7, [2, 3]))  # t
 #             continue
 #
 #         for num in numlist:
-#
 #             if (position + num) > goal:  # oob check
 #                 continue
 #
@@ -76,7 +216,6 @@ print(howsum_tab(7, [2, 3]))  # t
 # print(cansum_tab(7,[2,4]))  # f
 # print(cansum_tab(8,[2,3,5]))  # t
 # print(cansum_tab(300,[7,14]))  # f
-
 
 
 # def gridTraveler_tab(y, x): # its like linked list loop with slow and fast pointer - it works but makes 0 sense
