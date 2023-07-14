@@ -1,25 +1,56 @@
 # https://www.youtube.com/watch?v=oBt53YbR9Kk
 
-def countconstruct(target, wordbank):
-    tab = [0] * (len(target) + 1)
-    tab[0] = 1
+def allconstruct(target, wordbank):
+    tab = [[] for i in range(len(target) + 1)]
+    tab[0] = [[]]
 
     for i in range(len(target)):
+
+        if tab[i] is None:
+            continue
+
         for word in wordbank:
             slice = target[i:i+len(word)]
-
             if slice == word:
-                tab[i+len(word)] += tab[i]
 
-    #print(tab)
-    return tab[-1]
+                stepidx = i+len(word)
+                for loclist in tab[i]:
+                    tab[stepidx].append(loclist+[word])
 
-print(countconstruct('', ['purp', 'p', 'ur', 'le', 'purpl']))  # 1
-print(countconstruct('purple', ['purp', 'p', 'ur', 'le', 'purpl']))  # 2
-print(countconstruct('abcdef', ['ab', 'abc', 'cd', 'def', 'abcd']))  # true
-print(countconstruct('skateboard', ['bo', 'rd', 'ate', 't', 'ska', 'sk', 'boar']))  # false
-print(countconstruct('enterapotentpot', ['a', 'p', 'ent', 'enter', 'ot', 'o', 't']))  # true
-print(countconstruct('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeez', ['e', 'ee', 'eee', 'eeee', 'eeeee']))  #false
+        # for l in tab:
+        #     print(l)
+        # print("="*20)
+    return len(tab[-1]),tab[-1]
+
+
+print(allconstruct('', ['purp', 'p', 'ur', 'le', 'purpl']))  # 1
+print(allconstruct('purple', ['purp', 'p', 'ur', 'le', 'purpl']))  # 2
+print(allconstruct('abcdef', ['ab', 'abc', 'cd', 'def', 'abcd', 'ef', 'c']))  # true
+print(allconstruct('skateboard', ['bo', 'rd', 'ate', 't', 'ska', 'sk', 'boar']))  # false
+print(allconstruct('enterapotentpot', ['a', 'p', 'ent', 'enter', 'ot', 'o', 't']))  # true
+print(allconstruct('eeeeeeeeeeeez', ['e', 'ee', 'eee', 'eeee', 'eeeee']))  #false
+
+
+# def countconstruct(target, wordbank):
+#     tab = [0] * (len(target) + 1)
+#     tab[0] = 1
+#
+#     for i in range(len(target)):
+#         for word in wordbank:
+#             slice = target[i:i+len(word)]
+#
+#             if slice == word:
+#                 tab[i+len(word)] += tab[i]
+#
+#     #print(tab)
+#     return tab[-1]
+#
+# print(countconstruct('', ['purp', 'p', 'ur', 'le', 'purpl']))  # 1
+# print(countconstruct('purple', ['purp', 'p', 'ur', 'le', 'purpl']))  # 2
+# print(countconstruct('abcdef', ['ab', 'abc', 'cd', 'def', 'abcd']))  # true
+# print(countconstruct('skateboard', ['bo', 'rd', 'ate', 't', 'ska', 'sk', 'boar']))  # false
+# print(countconstruct('enterapotentpot', ['a', 'p', 'ent', 'enter', 'ot', 'o', 't']))  # true
+# print(countconstruct('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeez', ['e', 'ee', 'eee', 'eeee', 'eeeee']))  #false
 
 
 # def howconstruct(target, wordbank):
