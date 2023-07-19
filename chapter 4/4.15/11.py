@@ -1,5 +1,7 @@
 import turtle as tut
 
+
+
 # time wasted 2 hr
 
 # actually seeing as it only does 1 'side' of the triangle per function, i may have gotten it but then ..
