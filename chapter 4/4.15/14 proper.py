@@ -25,6 +25,9 @@
 # if i dont get the problem at 2 hours then i should stop bashing my head in and just look up the solution
 # even if i almost didnt find the solution
 
+# actually this solution does an illegal move of moving 4 people at once with 4/4 and boat size of 2
+
+
 def moveBoat(m, c, movenum):
     global leftM, leftC, rightM, rightC
     # direction of the boat can be derived from even-niess of move number
@@ -76,8 +79,6 @@ def solve(prevmove = None):
 
     for m in range(boatsize+1):  # i iterated by basically using range(2,0, -1) which takes infinitely longer
         for c in range(boatsize+1):  # im a dumbass
-            print(f"M IS {m} C IS {c}")
-
             currmove = f"{m=} {c=}"
 
             if (m == 0 and c == 0) or prevmove == currmove:
@@ -108,8 +109,7 @@ def solve(prevmove = None):
 
 
 
-
-people_per_group = 3
+people_per_group = 4
 
 totalM = people_per_group
 totalC = people_per_group

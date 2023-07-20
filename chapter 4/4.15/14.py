@@ -10,6 +10,9 @@
 # still dont understand why we iterate m and c in range of boat slots
 # still dont understand how he doesnt get stuck in a move by only looking at previous move
 
+#https://dl.acm.org/doi/pdf/10.1145/144045.144106
+
+
 def islegal(currentbank):
     global leftbank, rightbank
     if leftbank['C'] > leftbank['M'] and leftbank['M'] > 0:

@@ -3,7 +3,7 @@ import turtle as tut
 
 
 # time wasted 2 hr
-
+#
 # actually seeing as it only does 1 'side' of the triangle per function, i may have gotten it but then ..
 # .. tried to draw the entire triangle in 1 go, maybe thats much more complicated to do in recursion
 
@@ -18,6 +18,7 @@ def drawKochCurve (t,level,distance):  # copypaste because i can not figure this
         drawKochCurve(t, level - 1, distance / 3)
         t.left(60)
         drawKochCurve(t, level-1, distance / 3)
+        input()
 
 
 def koch(t, depth, distance):  # im shit
@@ -26,7 +27,6 @@ def koch(t, depth, distance):  # im shit
         t.forward(distance)
         t.left(60)
         return
-
 
     # for depth of 3
 
@@ -73,7 +73,7 @@ fred.speed(4)
 
 #koch(fred,1,100)
 
-drawKochCurve(fred,1,100)
+drawKochCurve(fred,2,100)
 
 window.exitonclick()
 
