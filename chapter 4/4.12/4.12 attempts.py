@@ -196,7 +196,7 @@ def make_change_3(coin_value_list, change, min_coins):
 #                     tempcash -= maxcoin
 #                     count += 1
 #
-#             cache[curcash] = count  # todo wtf is going on how do i calculate this what am i calculating
+#             cache[curcash] = count
 #
 #         curcash += 1
 #     return cache[cash]

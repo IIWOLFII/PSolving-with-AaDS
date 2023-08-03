@@ -1,4 +1,4 @@
-def quick_sort(alist, start=0, end=None):  # makes no sense btw
+def quick_sort(alist, start=0, end=None):
     if end is None:
         end = len(alist) - 1
     if start < end:
@@ -6,7 +6,7 @@ def quick_sort(alist, start=0, end=None):  # makes no sense btw
         quick_sort(alist, start, split - 1)  # we leave the pivot point alone hence the -1
         quick_sort(alist, split + 1, end)  # we leave the pivot point alone hence the +1
 
-def sort_quickly(alist, pivot_idx=0, rp=None):  # idk
+def sort_quickly(alist, pivot_idx=0, rp=None):
     if len(alist) <= 1:
         return
     if rp is None:
@@ -14,18 +14,19 @@ def sort_quickly(alist, pivot_idx=0, rp=None):  # idk
     lp = pivot_idx + 1
     done = False
     while not done:
-        while lp <= rp:  # idk
+        while lp <= rp:
             if alist[lp] >= alist[pivot_idx]:
                 break
             lp += 1
-        while lp <= rp:  # idk
+        while lp <= rp:
             if alist[rp] <= alist[pivot_idx]:
                 break
             rp -= 1
         if lp > rp:
-            done = True  # why is this required
+            done = True  # done to avoid infinite loop
         else:
             alist[lp], alist[rp] = alist[rp], alist[lp]
+            rp -= 1  # if we dont include this then infinite swaps happen when two numbers are equal
     alist[pivot_idx], alist[rp] = alist[rp], alist[pivot_idx]
     return rp  # return the split point which we should not include in next calls
 
@@ -65,6 +66,7 @@ print(a_list)
 #             alist[lp], alist[rp] = alist[rp], alist[lp]
 #     alist[pivot_idx], alist[rp] = alist[rp], alist[pivot_idx]
 #     return rp  # return the split point which we should not include in next calls
+
 
 
 # def quick_sort(alist,lp = 1,rp = None):  # i dont get it
