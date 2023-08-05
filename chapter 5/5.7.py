@@ -1,6 +1,6 @@
 
-def bubble_sort_short(value):
-    for i in range(len(value)-1,0,-1):
+def bubble_sort_short(a):
+    for i in range(len(a)-1,0,-1):
         issorted = True
         for j in range(i):
             if a[j] > a[j+1]:
