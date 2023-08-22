@@ -53,8 +53,8 @@ def tree_to_eval(node):
 
     return operator(int(operand1), int(operand2) )
 
-tree1 = str_to_tree('((7+3)*(5-2))')
-tree2 = str_to_tree("( ( 10 + 5 ) * 3 )")
-tree3 = str_to_tree("(3+4(4*5))")
+tree1 = str_to_tree('((7+3)*(5-2))') #30
+tree2 = str_to_tree("( ( 10 + 5 ) * 3 )") #45
+tree3 = str_to_tree("((3+4)*(4*5))") #140
 print(tree_to_eval(tree3))
 

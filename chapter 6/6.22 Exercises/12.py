@@ -33,8 +33,6 @@ class binary_treeNAR():
             self.right.right = child
 
 
-
-
 tree = binary_treeNAR()
 
 tree.insert_left('c')

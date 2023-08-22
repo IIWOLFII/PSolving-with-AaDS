@@ -1,0 +1,75 @@
+from things import ParseTree, Stack, binary_treeNAR
+import operator as ops
+
+class ParseTreeBool(ParseTree):
+    def __init__(self,value=None):
+        super().__init__(value)
+
+    def str_to_tree(self, val):
+        tree = binary_treeNAR()
+        treestack = Stack()
+        treestack.push(tree)
+        for char in val[1:len(val) - 1]:
+            cur_tree = treestack.peek()
+            if char == '(':
+                if cur_tree.get_left_child() is None:
+                    cur_tree.insert_left(None)
+                    treestack.push(cur_tree.get_left_child())
+                else:
+                    cur_tree.insert_right(None)
+                    treestack.push(cur_tree.get_right_child())
+            elif char == ')':
+                treestack.pop()
+            elif char in '+-*/&|': # todo add !
+                cur_tree.set_root_val(char)
+            elif char.isnumeric() or char in 'TruFalse':
+                if cur_tree.get_root_val() is None:
+                    insert = self.handle_existingdigits(char, cur_tree.get_left_child())
+                    cur_tree.left = None
+                    cur_tree.insert_left(insert)
+                else:
+                    insert = self.handle_existingdigits(char, cur_tree.get_right_child())
+                    cur_tree.right = None
+                    cur_tree.insert_right(insert)
+            elif char == ' ':
+                continue
+            else:
+                raise Exception('Unhandled operator', char)
+        return tree
+
+    def tree_to_eval(self, node):
+        operators = {"+": ops.add, #todo handle !
+                     "-": ops.sub,
+                     "/": ops.truediv,
+                     "*": ops.mul,
+                     "&":ops.and_,
+                     "|":ops.or_}
+
+        if not node.get_right_child() and not node.get_left_child():
+            return node.get_root_val()
+
+        operator = operators[node.get_root_val()]
+        operands = [self.tree_to_eval(node.get_left_child()),self.tree_to_eval(node.get_right_child())]
+
+        for idx in range(len(operands)):
+            if operands[idx] in ('True','False'):
+                if operands[idx] == 'True':
+                    operands[idx] = True
+                elif operands[idx] == 'False':
+                    operands[idx] = False
+            elif isinstance(operands[idx],int) or (isinstance(operands[idx],str) and operands[idx].isnumeric()):
+                operands[idx] = int(operands[idx])
+            else:
+                raise Exception(f'Unrecognized keyword {operands[idx]}')
+
+        return operator(operands[0],operands[1])
+
+PTree = ParseTreeBool()
+
+tree1 = PTree.str_to_tree('((7+3)*(5-2))') #30
+tree2 = PTree.str_to_tree("( ( 10 + 5 ) * 3 )") #45
+tree3 = PTree.str_to_tree("((3+4)*(4*5))") #140
+tree4 = PTree.str_to_tree("!(True | False)") # doesnt actually work todo
+
+print(PTree.tree_to_str(tree4))
+print(PTree.tree_to_eval(tree4))

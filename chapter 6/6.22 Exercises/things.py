@@ -1,10 +1,9 @@
-import operator as ops
 import turtle as tut
 import math
+import operator as ops
 
 class BinaryMinHeap():
     def __init__(self, heap=None):
-        self.heap = heap
         if heap is None:
             self.heap = []
         else:
@@ -49,8 +48,11 @@ class BinaryMinHeap():
     def peek(self):
         return self.heap[0]
 
-    def heapify(self,notheap):
-        self.heap = notheap[:]  # [:] to avoid pointing at the list
+    def heapify(self,notheap = None):
+        if notheap is None:
+            self.heap = self.heap[:]  # [:] to avoid pointing at the list
+        else:
+            self.heap = notheap[:]
         i = len(self.heap) // 2 - 1
         while i >= 0:
             self.bubble_down(i)
@@ -62,319 +64,12 @@ class BinaryMinHeap():
         self.bubble_down(0)
         return oldmin
 
-class binary_treeNAR():
-    def __init__(self, value=None):
-        self.value = value
-        self.left = None
-        self.right = None
-
-    def get_root_val(self):
-        return self.value
-
-    def set_root_val(self, val):
-        self.value = val
-
-    def get_left_child(self):
-        return self.left
-
-    def get_right_child(self):
-        return self.right
-
-    def insert_left(self, val):
-        child = self.left
-        if self.left is None:
-            self.left = binary_treeNAR(val)
-        else:
-            self.left = binary_treeNAR(val)
-            self.left.insert_left(child)
-
-    def insert_right(self, val):
-        child = self.right
-        if self.right is None:
-            self.right = binary_treeNAR(val)
-        else:
-            self.right = binary_treeNAR(val)
-            self.right.insert_right(child)
-
-
-class Stack():
-    def __init__(self):
-        self.stack = []
-
-    def push(self, z):
-        return self.stack.append(z)
-
-    def pop(self):
-        return self.stack.pop()
-
-    def peek(self):
-        return self.stack[-1]
-
-    def is_empty(self):
-        return self.stack == []
-
-    def size(self):
-        return len(self.stack)
-
-
-def handle_existingdigits(char, peek):
-    if peek and isinstance(peek.get_root_val(), str):
-        return peek.get_root_val() + char
-    return char
-
-
-def str_to_tree(val):
-    tree = binary_treeNAR()
-    treestack = Stack()
-    treestack.push(tree)
-    for char in val[1:len(val) - 1]:
-        cur_tree = treestack.peek()
-        if char == '(':
-            if cur_tree.get_left_child() is None:
-                cur_tree.insert_left(None)
-                treestack.push(cur_tree.get_left_child())
-            else:
-                cur_tree.insert_right(None)
-                treestack.push(cur_tree.get_right_child())
-        elif char == ')':
-            treestack.pop()
-        elif char in '+-*/':
-            cur_tree.set_root_val(char)
-        elif char.isnumeric():
-            if cur_tree.get_root_val() is None:
-                insert = handle_existingdigits(char, cur_tree.get_left_child())
-                cur_tree.left = None
-                cur_tree.insert_left(insert)
-            else:
-                insert = handle_existingdigits(char, cur_tree.get_right_child())
-                cur_tree.right = None
-                cur_tree.insert_right(insert)
-        elif char == ' ':
-            continue
-        else:
-            raise Exception('Unhandled operator', char)
-    return tree
-
-
-def tree_to_eval(node):
-    operators = {"+": ops.add,
-                 "-": ops.sub,
-                 "/": ops.truediv,
-                 "*": ops.mul}
-
-    if not node.get_right_child() and not node.get_left_child():
-        return node.get_root_val()
-    operator = operators[node.get_root_val()]
-    operand1 = tree_to_eval(node.get_left_child())
-    operand2 = tree_to_eval(node.get_right_child())
-    return operator(int(operand1), int(operand2))
-
-
-class TreeNode():
-    def __init__(self, key, value, child_left=None, child_right=None, parent=None):
-        self.key = key
-        self.value = value
-        self.child_left = child_left
-        self.child_right = child_right
-        self.parent = parent
-
-    def is_child_left(self):
-        return self.parent and self.parent.child_left == self
-
-    def is_child_right(self):
-        return self.parent and self.parent.child_right == self
-
-    def is_root(self):
-        return self.parent is None
-
-    def is_leaf(self):
-        return not self.child_left and not self.child_right
-
-    def has_one_child(self):
-        return self.child_left or self.child_right
-
-    def has_two_childs(self):
-        return self.child_left and self.child_right
-
-    def replace_value(self, key=None, value=None, left=None, right=None):
-        for key, new in zip(['key', 'value'], [key, value]):
-            if new:
-                setattr(self, key, new)
-        for key, new in zip(['child_left', 'child_right'], [left, right]):
-            if new:
-                new.parent = self
-                setattr(self, key, new)
-
-    def unplug(self):
-        if self.is_leaf():
-            if self.is_child_left():
-                self.parent.child_left = None
-            elif self.is_child_right():
-                self.parent.child_right = None
-
-        elif self.has_one_child():
-            for child in ['child_left', 'child_right']:
-                if child:
-                    if self.is_child_left():
-                        self.parent.child_left = getattr(self, child)
-                    elif self.is_child_right():
-                        self.parent.child_right = getattr(self, child)
-                    break  # shouldnt we continue for both children?
-
-    def find_min(self, node):
-        if node.child_left:
-            return self.find_min(node.child_left)
-        else:
-            return node
-
-    def get_successor(self):
-        successor = None
-        # If the node has a right child, then the successor is the smallest key in the right subtree
-        if self.child_right:
-            successor = self.find_min(self.child_right)
-        # If the node has no right child and is the left child of its parent, then the parent is the successor.
-        elif self.parent and self.parent.child_left:
-            successor = self.parent
-        # # If the node has no right child and is the right child of its parent,, then the successor to this node is the successor of its parent, excluding this node.
-        elif self.parent and self.parent.child_right:
-            self.parent.child_right = None
-            successor = self.get_successor()
-            self.parent.child_right = self
-
-        if successor is None:
-            print('!!!!!!!!!!!!!!SUCCESSOR NOT FOUND SOMETHING WENT WRONG!!!!!!!!!!!!!!!!!')
-
-        return successor
-
-    def __iter__(self):
-        if self:
-            if self.child_left:
-                for i in self.child_left:
-                    yield i
-            yield self.key
-            if self.child_right:
-                for j in self.child_right:
-                    yield j
-
-
-class BinSearchMap():
-    def __init__(self):
-        self.root = None
-        self.size = 0
-
-    def __len__(self):
-        return self.size
-
-    def __iter__(self):
-        return self.root.__iter__()
-
-    def put(self, key, val):
-        if not self.root:
-            self.root = TreeNode(key, val)
-        else:
-            self._put(key, val, self.root)
-        self.size += 1
-
-    def _put(self, key, val, node):
-        if key >= node.key:
-            if node.child_right:
-                self._put(key, val, node.child_right)
-            else:
-                node.child_right = TreeNode(key, val, parent=node)
-        else:
-            if node.child_left:
-                self._put(key, val, node.child_left)
-            else:
-                node.child_left = TreeNode(key, val, parent=node)
-
-    def __setitem__(self, key, value):
-        self.put(key, value)
-
-    def get(self, key):
-        result = self._get(key)
-        if result:
-            return result.value
-        return None
-
-    def _get(self, key, node=None):
-        if node is None:
-            node = self.root
-        if key == node.key:
-            return node
-        if key >= node.key:
-            if node.child_right:
-                return self._get(key, node.child_right)
-        else:
-            if node.child_left:
-                return self._get(key, node.child_left)
-        return None
-
-    def __getitem__(self, key):
-        return self.get(key)
-
-    def __contains__(self, key):
-        return not (self.get(key) is None)
-
-    def delete(self, key):
-        if self.size > 1:
-            node_to_delete = self._get(key)
-            if node_to_delete:
-                self._delete(node_to_delete)
-                self.size -= 1
-            else:
-                raise KeyError
-        elif self.size == 1 and self.root.key == key:
-            self.root = None
-            self.size -= 1
-        else:
-            raise KeyError
-
-    def _delete(self, node: TreeNode):
-        if not node.has_one_child():  # no children (the mountain goats)
-            if node.is_child_left():
-                node.parent.child_left = None
-            elif node.is_child_right():
-                node.parent.child_right = None
-
-        elif node.has_two_childs():  # 2 childs
-            successor = node.get_successor()
-            successor.unplug()
-            node.key = successor.key
-            node.value = successor.value
-
-        elif node.has_one_child():  # 1 child
-            if node.child_left:
-                child = node.child_left
-            else:
-                child = node.child_right
-
-            if node.is_child_left():
-                child.parent = node.parent
-                node.parent.child_left = child
-                del node
-            elif node.is_child_right():
-                child.parent = node.parent
-                node.parent.child_right = child
-                del node
-
-            else:  # case for root
-                node.replace_value(key=child.key,
-                                   value=child.value,
-                                   left=child.child_left,
-                                   right=child.child_right)
-        else:
-            raise Exception('???? something went wrong')
-
-    def __delete__(self, key):
-        self.delete(key)
-
-
-class TreeDrawer():
-    def __init__(self, tree, turtle=None):
+class HeapDrawer():
+    def __init__(self, heap, turtle=None):
         self.turtle = turtle
         if turtle is None:
             self.turtle = tut.Turtle()
-        self.tree = tree
+        self.heap = heap.heap
 
         # baked the coordinates
         self.coordinates = [(0.0, 240), (-450.0, 180), (450.0, 180), (-675.0, 120), (-225.0, 120), (225.0, 120),
@@ -628,7 +323,7 @@ class TreeDrawer():
                             (887.6953125, -300), (891.2109375, -300), (894.7265625, -300), (898.2421875, -300)]
 
     def drawtree(self, plusdepth=0, verticaloffset=-300, rebuildcoordinates=False):
-        tree = self.tree
+        heap = self.heap
         t = self.turtle
         screen = tut.Screen()
 
@@ -637,7 +332,7 @@ class TreeDrawer():
         t.speed(0)
         t.penup()
 
-        depth = math.ceil(tree.size / 2) + plusdepth
+        depth = math.ceil(len(heap) // 2) + plusdepth
         width = depth * 100
 
         if len(self.coordinates) <= 0 or rebuildcoordinates:
@@ -658,33 +353,158 @@ class TreeDrawer():
         self.fill_tree()
         screen.exitonclick()
 
-    def writefun(self, node):
+    def writefun(self, item_idx):
         font = ("Times New Roman", 12, "normal")
         align = "center"
-        text = f'Key: {node.key}\nVal: {node.value}\nBalFac: {node.balance_factor}'
+        text = f'Val: {self.heap[item_idx]}'
 
         self.turtle.pendown()
         self.turtle.circle(20)
         self.turtle.write(arg=text, align=align, font=font)
         self.turtle.penup()
 
-    def fill_tree(self, curcoord=0, node=None):
+    def fill_tree(self, curcoord=0, item_idx=None):
         coords = self.coordinates
         t = self.turtle
-        if node is None:
-            node = self.tree.root
+        heap = self.heap
+        if item_idx is None:
+            item_idx = 0
 
         t.goto(coords[curcoord])
-        self.writefun(node)
+        self.writefun(item_idx)
 
-        if node.child_left:
+        leftchild_idx = 2 * curcoord + 1
+        rightchild_idx = 2 * curcoord + 2
+
+        if leftchild_idx < len(heap):
             t.goto(coords[curcoord])
             t.pendown()
-            self.fill_tree(2 * curcoord + 1, node.child_left)
+            self.fill_tree(2 * curcoord + 1, leftchild_idx)
             t.penup()
 
-        if node.child_right:
+        if rightchild_idx < len(heap):
             t.goto(coords[curcoord])
             t.pendown()
-            self.fill_tree(2 * curcoord + 2, node.child_right)
+            self.fill_tree(2 * curcoord + 2, rightchild_idx)
             t.penup()
+
+class binary_treeNAR():
+    def __init__(self, value=None):
+        self.value = value
+        self.left = None
+        self.right = None
+
+    def get_root_val(self):
+        return self.value
+
+    def set_root_val(self, val):
+        self.value = val
+
+    def get_left_child(self):
+        return self.left
+
+    def get_right_child(self):
+        return self.right
+
+    def insert_left(self, val):
+        child = self.left
+        if self.left is None:
+            self.left = binary_treeNAR(val)
+        else:
+            self.left = binary_treeNAR(val)
+            self.left.insert_left(child)
+
+    def insert_right(self, val):
+        child = self.right
+        if self.right is None:
+            self.right = binary_treeNAR(val)
+        else:
+            self.right = binary_treeNAR(val)
+            self.right.insert_right(child)
+
+
+class Stack():
+    def __init__(self):
+        self.stack = []
+
+    def push(self, z):
+        return self.stack.append(z)
+
+    def pop(self):
+        return self.stack.pop()
+
+    def peek(self):
+        return self.stack[-1]
+
+    def is_empty(self):
+        return self.stack == []
+
+    def size(self):
+        return len(self.stack)
+
+
+class ParseTree(binary_treeNAR):
+    def __init__(self, value=None):
+        super().__init__(value)
+
+    def handle_existingdigits(self, char, peek):
+        if peek and isinstance(peek.get_root_val(), str):
+            return peek.get_root_val() + char
+        return char
+
+    def str_to_tree(self, val):
+        tree = binary_treeNAR()
+        treestack = Stack()
+        treestack.push(tree)
+        for char in val[1:len(val) - 1]:
+            cur_tree = treestack.peek()
+            if char == '(':
+                if cur_tree.get_left_child() is None:
+                    cur_tree.insert_left(None)
+                    treestack.push(cur_tree.get_left_child())
+                else:
+                    cur_tree.insert_right(None)
+                    treestack.push(cur_tree.get_right_child())
+            elif char == ')':
+                treestack.pop()
+            elif char in '+-*/':
+                cur_tree.set_root_val(char)
+            elif char.isnumeric():
+                if cur_tree.get_root_val() is None:
+                    insert = self.handle_existingdigits(char, cur_tree.get_left_child())
+                    cur_tree.left = None
+                    cur_tree.insert_left(insert)
+                else:
+                    insert = self.handle_existingdigits(char, cur_tree.get_right_child())
+                    cur_tree.right = None
+                    cur_tree.insert_right(insert)
+            elif char == ' ':
+                continue
+            else:
+                raise Exception('Unhandled operator', char)
+        return tree
+
+    def tree_to_eval(self, node):
+        operators = {"+": ops.add,
+                     "-": ops.sub,
+                     "/": ops.truediv,
+                     "*": ops.mul}
+
+        if not node.get_right_child() and not node.get_left_child():
+            return node.get_root_val()
+
+        operator = operators[node.get_root_val()]
+        operand1 = self.tree_to_eval(node.get_left_child())
+        operand2 = self.tree_to_eval(node.get_right_child())
+
+        return operator(int(operand1), int(operand2))
+
+    def tree_to_str(self, node):
+        res = ''
+        operand1 = node.get_left_child()
+        operand2 = node.get_right_child()
+        if not operand1 and not operand2:
+            return node.get_root_val() + ''
+
+        res += '(' + self.tree_to_str(operand1) + ' ' + node.get_root_val() + ' ' + self.tree_to_str(operand2) + ')'
+        return res

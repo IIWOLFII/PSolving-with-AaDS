@@ -1,11 +1,9 @@
 from stuff import BinSearchMap, TreeNode, TreeDrawer
 
-
 class TreeNodeAVL(TreeNode):
     def __init__(self, key, value, child_left=None, child_right=None, parent=None):
         super().__init__(key, value, child_left, child_right, parent)
         self.balance_factor = 0
-
 
 class BinAVLMap(BinSearchMap):
     def __init__(self):
@@ -54,10 +52,18 @@ class BinAVLMap(BinSearchMap):
             return
 
         elif node.balance_factor > 0:
-            self.rotate_tree(node, left=False)
+            if node.child_left.balance_factor < 0:
+                self.rotate_tree(node.child_left, left=True)
+                self.rotate_tree(node, left=False)
+            else:
+                self.rotate_tree(node, left=False)
 
         elif node.balance_factor < 0:
-            self.rotate_tree(node, left=True)
+            if node.child_right.balance_factor > 0:
+                self.rotate_tree(node.child_right, left=False)
+                self.rotate_tree(node, left=True)
+            else:
+                self.rotate_tree(node, left=True)
 
     def rotate_tree(self, oldroot, left=True):
         if left:
@@ -67,21 +73,24 @@ class BinAVLMap(BinSearchMap):
             childleft = 'child_right'
             childright = 'child_left'
 
-        new_root = getattr(oldroot,childright)
-        setattr(oldroot,childright,getattr(new_root,childleft))
+        new_root = getattr(oldroot, childright)
+        setattr(oldroot, childright, getattr(new_root, childleft))
 
-        if getattr(new_root,childright):
-            child = getattr(new_root,childright)
+        if getattr(new_root, childleft):
+            child = getattr(new_root, childleft)
             child.parent = oldroot
 
         new_root.parent = oldroot.parent
         if new_root.is_root():
             self.root = new_root
+        else:
+            if getattr(oldroot.parent, childleft) == oldroot:  # if oldroot is left child
+                setattr(oldroot.parent, childleft, new_root)
+            else:
+                setattr(oldroot.parent, childright, new_root)
 
-        setattr(new_root,childleft, oldroot)
-
+        setattr(new_root, childleft, oldroot)
         oldroot.parent = new_root
-
 
         if left:
             oldroot.balance_factor = (
@@ -116,12 +125,26 @@ tree = BinAVLMap()
 # tree.put(20, 'B')
 # tree.put(10, 'A')
 
-tree.put(10, 'A')
-tree.put(20, 'B')
-tree.put(30, 'C')
+# tree.put(10, 'A')
+# tree.put(20, 'B')
+# tree.put(30, 'C')
+
+
+tree.put(30, 'B')
+tree.put(20, 'A')
+tree.put(40, 'E')
+tree.put(35, 'D')
+tree.put(50, 'F')
+tree.put(32, 'C')
+
+# tree.put(20, 'A')
+# tree.put(40, 'C')
+# tree.put(30, 'B')
 
 draw = TreeDrawer(tree)
 
+# draw.drawtree(verticaloffset=0, rebuildcoordinates=True)
+
+#tree.rebalance_node()
 
 draw.drawtree(verticaloffset=0, rebuildcoordinates=True)
-
