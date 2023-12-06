@@ -1,2 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿//_7_6.Run();
+//_7_7.Run();
+//_7_9.Run(); // todo
+
