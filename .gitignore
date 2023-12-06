@@ -1,16 +1,3 @@
-chapter 7/obj/Debug/net7.0/chapter 7.genruntimeconfig.cache
-chapter 7/obj/Debug/net7.0/chapter 7.pdb
-chapter 7/obj/Debug/net7.0/ref/chapter 7.dll
-chapter 7/obj/Debug/net7.0/refint/chapter 7.dll
-chapter 7/obj/Debug/net7.0/apphost.exe
-chapter 7/obj/Debug/net7.0/chapter 7.assets.cache
-chapter 7/obj/Debug/net7.0/chapter 7.csproj.CoreCompileInputs.cache
-chapter 7/obj/Debug/net7.0/chapter 7.csproj.FileListAbsolute.txt
-chapter 7/obj/Debug/net7.0/chapter 7.dll
-chapter 7/bin/Debug/net7.0/chapter 7.deps.json
-chapter 7/bin/Debug/net7.0/chapter 7.dll
-chapter 7/bin/Debug/net7.0/chapter 7.exe
-chapter 7/bin/Debug/net7.0/chapter 7.pdb
-chapter 7/bin/Debug/net7.0/chapter 7.runtimeconfig.json
-chapter 7/obj/Debug/net7.0/chapter 7.assets.cache
-chapter 7/obj/Debug/net7.0/chapter 7.GeneratedMSBuildEditorConfig.editorconfig
+chapter 7/obj
+chapter 7/.vscode
+chapter 7/bin
