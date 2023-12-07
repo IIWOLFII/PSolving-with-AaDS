@@ -1,17 +1,18 @@
 using System.Collections;
 
-public class Graph<T> : IEnumerable<Vertex<T>>
+public class Graph<vertex> : IEnumerable<vertex> where vertex: BaseVertex<vertex>
 {
-    private Dictionary<String,Vertex<T>> masterList;
+    private Dictionary<String,vertex> masterList;
     public Graph()
     {
-        masterList = new Dictionary<String,Vertex<T>>();
+        masterList = new Dictionary<String,vertex>();
     }
     public void Set_vertex(string key)
     {
-        masterList.Add(key,new Vertex<T>(key));
+        vertex ver = System.Activator.CreateInstance(typeof(vertex),key) as vertex; // ??????????? i need an adult 
+        masterList.Add(key,ver); // todo
     }
-    public void Add_vertex(Vertex<T> ver)
+    public void Add_vertex(vertex ver)
     {
         masterList.Add(ver.key,ver);
     }
@@ -27,7 +28,7 @@ public class Graph<T> : IEnumerable<Vertex<T>>
         }
         masterList[from].SetNeighbor(masterList[to],weight);
     }
-    public Vertex<T> Get_vertex(string key)
+    public vertex Get_vertex(string key)
     {
         return masterList[key];
     }
@@ -41,7 +42,7 @@ public class Graph<T> : IEnumerable<Vertex<T>>
         return masterList.ContainsKey(key);
     }
 
-    public IEnumerator<Vertex<T>> GetEnumerator()
+    public IEnumerator<vertex> GetEnumerator()
     {
         foreach(var i in masterList)
         {

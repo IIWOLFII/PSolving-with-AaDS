@@ -1,26 +1,24 @@
-public class Vertex<T> : IEnumerable<Vertex<T>>
+public abstract class BaseVertex<T> : IEnumerable<T> where T: BaseVertex<T>
 {
-    public readonly string key;
-    public T? value;
-    public Dictionary<Vertex<T>,int> adj {get;set;}
+    public string key {get;}
+    public Dictionary<T,int> adj {get;set;}
 
-    public Vertex (string key, T? value = default(T))
+    protected BaseVertex (string key)
     {
         this.key = key;
-        this.value = value;
-        this.adj = new Dictionary<Vertex<T>,int>();
+        this.adj = new Dictionary<T,int>();
     }
 
-    public void SetNeighbor (Vertex<T> vert, int weight = 0)
+    public void SetNeighbor (T vert, int weight = 0)
     {
         adj[vert] = weight;
     }
-    public int GetNeighbor (Vertex<T> vert)
+    public int GetNeighbor (T vert)
     {
         return adj[vert];
     }
 
-    public List<Vertex<T>> GetNeighbors() // just iterate with foreach tbh
+    public List<T> GetNeighbors() // just iterate with foreach tbh
     {
         return adj.Keys.ToList();
     }
@@ -39,7 +37,7 @@ public class Vertex<T> : IEnumerable<Vertex<T>>
         return $"{key} connected to => {adj.Aggregate(sum,(_,x) => (sum += x.Key.key + ";"))}";
     }
 
-    public IEnumerator<Vertex<T>> GetEnumerator()
+    public IEnumerator<T> GetEnumerator()
     {
         foreach (var i in adj)
         {
@@ -55,7 +53,7 @@ public class Vertex<T> : IEnumerable<Vertex<T>>
 
 public static class VertexExtensions
 {
-    public static bool In<T>(this Vertex<T> ver, Graph<T> graph)
+    public static bool In<T>(this T ver, Graph<T> graph) where T: BaseVertex<T>
     {
         return graph.Contains(ver.key);
     }

@@ -1,35 +1,39 @@
-public static class _7_9
+/// <summary>
+/// BFSearch
+/// </summary>
+public static class _7_9 
 {
-    public static void Run(VertexBFS<verStates> start)
+    ///<summary>
+    /// Performs BFS, returns ????
+    ///</summary>
+    ///<params>
+    /// Requires a graph with BFSVertices and a starting word from inside the graph
+    ///</params>
+    public static void Run(Graph<BFSVertex> graph, string startingword)
     {
         int dist_start = 0;
         int dist_previous = 0;
-        var queueVerts = new Queue<VertexBFS<verStates>>();
-        queueVerts.Enqueue(start);
+        var queueVerts = new Queue<BFSVertex>();
+        queueVerts.Enqueue(graph.Get_vertex(startingword));
         while (queueVerts.Count > 0)
         {
             var curVert = queueVerts.Dequeue();
             foreach (var neighbor in curVert.GetNeighbors())
             {
-                if (neighbor.value == verStates.unexplored)
+                if (neighbor.state == verStates.unexplored)
                 {
-                    neighbor.value = verStates.discovered;
+                    neighbor.state = verStates.discovered;
                     neighbor.distance = curVert.distance + 1;
                     neighbor.previous = curVert;
-                    queueVerts.Enqueue(neighbor); //todo GetNeighbors returns wrong fucking type despite being derived
-                    // https://stackoverflow.com/questions/2070766/how-to-reference-current-class-type-using-generics
                 }
             }
-            curVert.value = verStates.exhausted;
+            curVert.state = verStates.exhausted;
         }
-
-
     }
 
-    public enum verStates
+    private static void TraversePrint()
     {
-        unexplored = 0,
-        discovered = 1,
-        exhausted = 2,
+        // todo
     }
 }
+

@@ -2,13 +2,13 @@ using System.Text.RegularExpressions;
 
 public static class _7_7
 {
-    public static Graph<T> Run<T>(T tip)
+    public static Graph<BFSVertex> Run() 
     {
         const char WILDCARDCHAR = '?';
         //string startword = "NOPE"; // unused
         string targetword = "POPE";
 
-        var graph = new Graph<T>();
+        var graph = new Graph<BFSVertex>();
 
         var words = new List<string>(){"POPE","ROPE","PIPE","POLE","POPS","NOPE","PAPE","PORE","HOPE","POSE","LOPE","POKE","MOPE","COPE"};
         var buckets = new Dictionary<string,List<string>>();
@@ -36,10 +36,10 @@ public static class _7_7
             }
         }
 
-        // foreach (var i in graph)
-        // {
-        //     Console.WriteLine(i);
-        // }
+        foreach (var i in graph)
+        {
+            Console.WriteLine(i);
+        }
 
         return graph;
     }

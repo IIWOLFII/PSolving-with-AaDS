@@ -1,4 +1,3 @@
 ﻿//_7_6.Run();
-//_7_7.Run();
-//_7_9.Run(); // todo
-
+var graph = _7_7.Run();
+_7_9.Run(graph,"NOPE");
