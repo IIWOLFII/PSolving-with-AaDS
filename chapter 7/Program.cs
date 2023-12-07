@@ -1,3 +1,5 @@
 ﻿//_7_6.Run();
-var graph = _7_7.Run();
-_7_9.Run(graph,"NOPE");
+//_7_7_LadderGraph.Run();
+//_7_9_BFS.PathFromTo(_7_7_LadderGraph.Run(debug:false),"sage","fool");
+_7_12_Tour.Run(size:5);
+
