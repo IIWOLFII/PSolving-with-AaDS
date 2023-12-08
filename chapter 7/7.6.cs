@@ -2,7 +2,7 @@ public static class _7_6
 {
     public static void Run()
     {
-        var Graph = new Graph<BFSVertex>();
+        var Graph = new Graph<SearchVertex>();
         for (var i = 0;i < 6; i++)
         {
             Graph.Set_vertex(i.ToString());

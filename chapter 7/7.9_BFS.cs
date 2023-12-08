@@ -10,13 +10,13 @@ public static class _7_9_BFS
     ///<params>
     /// Requires a graph with BFSVertices and a target word from inside the graph
     ///</params>
-    public static void Run(Graph<BFSVertex> graph, string targetword)
+    public static void Run(Graph<SearchVertex> graph, string targetword)
     {
         var targetvert = graph.Get_vertex(targetword);
         targetvert.distance = 0;
         targetvert.previous = null;
     
-        var queueVerts = new Queue<BFSVertex>();
+        var queueVerts = new Queue<SearchVertex>();
         queueVerts.Enqueue(targetvert);
 
         while (queueVerts.Count > 0)
@@ -39,7 +39,7 @@ public static class _7_9_BFS
     ///<summary>
     /// Paths to last BFS vert from given vert of a graph
     ///</summary>
-    private static void FindTargetFrom(Graph<BFSVertex> graph, string startvert)
+    private static void FindTargetFrom(Graph<SearchVertex> graph, string startvert)
     {
         var cur = graph.Get_vertex(startvert);
         while (cur != null)
@@ -49,7 +49,7 @@ public static class _7_9_BFS
         }
     }
 
-    public static void PathFromTo(Graph<BFSVertex> bFSVertices, string startingVertKey, string targetVertKey)
+    public static void PathFromTo(Graph<SearchVertex> bFSVertices, string startingVertKey, string targetVertKey)
     {
         Run(bFSVertices,targetVertKey);
         FindTargetFrom(bFSVertices,startingVertKey);

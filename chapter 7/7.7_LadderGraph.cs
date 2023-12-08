@@ -5,11 +5,11 @@ using System.Text.RegularExpressions;
 /// </summary>
 public static class _7_7_LadderGraph
 {
-    public static Graph<BFSVertex> Run(bool debug = true) 
+    public static Graph<SearchVertex> Run(bool debug = true) 
     {
         const char WILDCARDCHAR = '?';
         
-        var graph = new Graph<BFSVertex>();
+        var graph = new Graph<SearchVertex>();
 
         //var words = new HashSet<string>(){"POPE","ROPE","PIPE","POLE","POPS","NOPE","PAPE","PORE","HOPE","POSE","LOPE","POKE","MOPE","COPE"}; //one letter difference at most
         var words = new HashSet<string>(){"fool","pool","foil","foul","cool","poll","fail","pole","pall","pope","pale","page","sale","sage"};
