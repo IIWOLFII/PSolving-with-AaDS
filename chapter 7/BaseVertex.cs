@@ -41,7 +41,7 @@ public abstract class BaseVertex<T> : IEnumerable<T> where T: BaseVertex<T>
     {
         foreach (var i in adj)
         {
-            yield return i.Key;
+            yield return i.Key; // ok so how do i access weights lol..
         }
     }
 

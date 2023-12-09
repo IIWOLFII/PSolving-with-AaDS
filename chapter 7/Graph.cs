@@ -32,6 +32,18 @@ public class Graph<Vert_> : IEnumerable<Vert_> where Vert_: BaseVertex<Vert_>
     {
         return masterList[key];
     }
+
+    public Graph<Vert_> TransposedCopy()
+    {
+        var newgraph = new Graph<Vert_>();
+        foreach (var vert in masterList)
+            foreach (var adj in vert.Value)
+                {
+                    newgraph.Add_edge(adj.key,vert.Value.key);
+                }
+        return newgraph;
+    }
+
     public List<string> Get_vertices()
     {
         return masterList.Select(x => $"Vertex({x.Key})").ToList();
