@@ -15,6 +15,6 @@
 
 //_7_18_SCC.Run();
 
+//_7_20_Dijkstra.Run();
 
-_7_20_Dijkstra.Run();
-
+//_7_20_Dijkstra.Run();
