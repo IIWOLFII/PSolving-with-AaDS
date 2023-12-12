@@ -7,7 +7,7 @@ public class Graph<Vert_> : IEnumerable<Vert_> where Vert_: BaseVertex<Vert_>
     {
         masterList = new Dictionary<String,Vert_>();
     }
-    public void Set_vertex(string key)
+    public void New_vertex(string key)
     {
         Vert_? ver = System.Activator.CreateInstance(typeof(Vert_),key) as Vert_; // ??????????? i need an adult 
         if (ver != null) masterList.Add(key,ver);
@@ -20,14 +20,20 @@ public class Graph<Vert_> : IEnumerable<Vert_> where Vert_: BaseVertex<Vert_>
     {
         if (!this.Contains(from))
         {
-            Set_vertex(from);
+            New_vertex(from);
         }
         if (!this.Contains(to))
         {
-            Set_vertex(to);
+            New_vertex(to);
         }
         masterList[from].SetNeighbor(masterList[to],weight);
     }
+    public void Add_BiDirEdge(string from, string to, int weight = 0)
+    {
+        Add_edge(from,to,weight);
+        Add_edge(to,from,weight);
+    }
+    
     public Vert_ Get_vertex(string key)
     {
         return masterList[key];

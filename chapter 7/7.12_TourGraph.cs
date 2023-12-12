@@ -27,7 +27,7 @@ public static class _7_12_TourGraph
 
         for (int y = n-1; y > -1; y--){
             for (int x = 0; x < n; x++){
-                graph.Set_vertex($"{x}:{y}");
+                graph.New_vertex($"{x}:{y}");
             }
         }
         return graph;

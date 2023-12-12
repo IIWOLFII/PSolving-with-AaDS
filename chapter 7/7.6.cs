@@ -5,7 +5,7 @@ public static class _7_6
         var Graph = new Graph<SearchVertex>();
         for (var i = 0;i < 6; i++)
         {
-            Graph.Set_vertex(i.ToString());
+            Graph.New_vertex(i.ToString());
         }
 
         foreach (var i in Graph.Get_vertices()) Console.WriteLine(i);

@@ -17,4 +17,7 @@
 
 //_7_20_Dijkstra.Run();
 
-//_7_20_Dijkstra.Run();
+_7_22_Prim.Run();
+
+// not even opening chapter 8 considering the dip of clarity and quality this book took in this god 
+// forsaken chapter rivaled only by depth of the mariana trench - exactly where it belongs

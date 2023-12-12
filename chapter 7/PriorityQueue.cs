@@ -2,8 +2,8 @@
 
 public class MyPriorityQueue<T> where T : IComparable
 {
-    private bool maxheap;
-    private List<T> storage;
+    protected readonly bool maxheap;
+    protected List<T> storage;
     public int Count {get {return storage.Count;}}
 
     public MyPriorityQueue (bool maxheap, List<T> list)
@@ -34,6 +34,11 @@ public class MyPriorityQueue<T> where T : IComparable
     public T Peek()
     {
         return storage[0];
+    }
+
+    public bool Contains(T item)
+    {
+        return storage.Contains(item);
     }
 
     public void Enqueue(T item)
@@ -75,7 +80,7 @@ public class MyPriorityQueue<T> where T : IComparable
         }
     }
 
-    private void Heapify()
+    protected void Heapify()
     {
         int i = storage.Count / 2 - 1;
         while (i >= 0)
@@ -123,7 +128,7 @@ public class MyPriorityQueue<T> where T : IComparable
         storage[idx2] = tmp;
     }
 
-    private bool PriorityOver(T item1, T item2)
+    protected virtual bool PriorityOver(T item1, T item2)
     {
         int res = item1.CompareTo(item2);
         if (res >= 0) return maxheap;

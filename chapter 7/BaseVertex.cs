@@ -13,7 +13,7 @@ public abstract class BaseVertex<T> : IEnumerable<T> where T: BaseVertex<T>
     {
         adj[vert] = weight;
     }
-    public int GetNeighbor (T vert)
+    public int GetNeighborWeight (T vert)
     {
         return adj[vert];
     }
@@ -37,11 +37,19 @@ public abstract class BaseVertex<T> : IEnumerable<T> where T: BaseVertex<T>
         return $"{key} connected to => {adj.Aggregate(sum,(_,x) => (sum += x.Key.key + ";"))}";
     }
 
+    public IEnumerable<KeyValuePair<T,int>> GetEnumKV()
+    {
+        foreach (var i in adj)
+        {
+            yield return i;
+        }
+    }
+
     public IEnumerator<T> GetEnumerator()
     {
         foreach (var i in adj)
         {
-            yield return i.Key; // ok so how do i access weights lol..
+            yield return i.Key;
         }
     }
 
