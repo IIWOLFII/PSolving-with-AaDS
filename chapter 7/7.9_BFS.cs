@@ -4,15 +4,22 @@
 /// </summary>
 public static class _7_9_BFS 
 {
+    public static void Run()
+    {
+        var graph = BFS(_7_7_LadderGraph.Run(debug:false),"sage");
+        PrintPathToStart(graph,"fool");
+    }
+
     ///<summary>
     /// Performs BFS updates graph verts
     ///</summary>
     ///<params>
-    /// Requires a graph with BFSVertices and a target word from inside the graph
+    /// Requires a graph with SearchVertex and a target word from inside the graph
     ///</params>
-    public static void Run(Graph<SearchVertex> graph, string targetword)
+    public static Graph<SearchVertex> BFS(Graph<SearchVertex> graph, string startKey)
     {
-        var targetvert = graph.Get_vertex(targetword);
+        // i need a way to clone the graph so we dont taint original https://agiledeveloper.com/articles/cloning072002.htm todo
+        var targetvert = graph.Get_vertex(startKey);
         targetvert.distance = 0;
         targetvert.previous = null;
     
@@ -28,18 +35,20 @@ public static class _7_9_BFS
                 {
                     neighbor.state = verStates.discovered;
                     neighbor.distance = curVert.distance + 1;
+                    //neighbor.distance = curVert.distance + curVert.GetNeighborWeight(neighbor); ex17
                     neighbor.previous = curVert;
                     queueVerts.Enqueue(neighbor);
                 }
             }
             curVert.state = verStates.exhausted;
         }
+        return graph;
     }
 
     ///<summary>
-    /// Paths to last BFS vert from given vert of a graph
+    /// Prints path starting from argument vertex to starting vertex from which BFS was called
     ///</summary>
-    private static void FindTargetFrom(Graph<SearchVertex> graph, string startvert)
+    public static void PrintPathToStart(Graph<SearchVertex> graph, string startvert)
     {
         var cur = graph.Get_vertex(startvert);
         while (cur != null)
@@ -47,12 +56,6 @@ public static class _7_9_BFS
             Console.WriteLine(cur.key);
             cur = cur.previous;
         }
-    }
-
-    public static void PathFromTo(Graph<SearchVertex> bFSVertices, string startingVertKey, string targetVertKey)
-    {
-        Run(bFSVertices,targetVertKey);
-        FindTargetFrom(bFSVertices,startingVertKey);
     }
 }
 

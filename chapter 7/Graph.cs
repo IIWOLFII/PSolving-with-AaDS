@@ -28,7 +28,7 @@ public class Graph<Vert_> : IEnumerable<Vert_> where Vert_: BaseVertex<Vert_>
         }
         masterList[from].SetNeighbor(masterList[to],weight);
     }
-    public void Add_BiDirEdge(string from, string to, int weight = 0)
+    public void Add_BiDiredge(string from, string to, int weight = 0)
     {
         Add_edge(from,to,weight);
         Add_edge(to,from,weight);
@@ -58,6 +58,10 @@ public class Graph<Vert_> : IEnumerable<Vert_> where Vert_: BaseVertex<Vert_>
     public bool Contains(string key)
     {
         return masterList.ContainsKey(key);
+    }
+    public bool Contains(Vert_ key)
+    {
+        throw new ArgumentException();
     }
 
     public IEnumerator<Vert_> GetEnumerator()

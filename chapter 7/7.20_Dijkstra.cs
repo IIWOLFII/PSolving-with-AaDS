@@ -3,16 +3,16 @@ public static class _7_20_Dijkstra
     public static void Run()
     {
         var graph = new Graph<SearchVertex>();
-        graph.Add_BiDirEdge("u","v",2);
-        graph.Add_BiDirEdge("u","x",1);
-        graph.Add_BiDirEdge("u","w",5);
-        graph.Add_BiDirEdge("v","x",2);
-        graph.Add_BiDirEdge("v","w",3);
-        graph.Add_BiDirEdge("x","y",1);
-        graph.Add_BiDirEdge("x","w",3);
-        graph.Add_BiDirEdge("w","y",1);
-        graph.Add_BiDirEdge("w","z",5);
-        graph.Add_BiDirEdge("y","z",1);
+        graph.Add_BiDiredge("u","v",2);
+        graph.Add_BiDiredge("u","x",1);
+        graph.Add_BiDiredge("u","w",5);
+        graph.Add_BiDiredge("v","x",2);
+        graph.Add_BiDiredge("v","w",3);
+        graph.Add_BiDiredge("x","y",1);
+        graph.Add_BiDiredge("x","w",3);
+        graph.Add_BiDiredge("w","y",1);
+        graph.Add_BiDiredge("w","z",5);
+        graph.Add_BiDiredge("y","z",1);
         var startKey = "u";
         DijkstraPathsFrom(graph,startKey);
         Console.WriteLine($"Distances from {startKey} to:");
@@ -21,19 +21,20 @@ public static class _7_20_Dijkstra
 
     private static void DijkstraPathsFrom(Graph<SearchVertex> graph,string startVertKey)
     {
+        SearchVertex curVertx;
+
         foreach (var vert in graph){
             vert.distance = Int32.MaxValue;}
 
         graph.Get_vertex(startVertKey).distance = 0;
-
         int totalDistance = 0;
-        SearchVertex curVertx;
 
         var pq = new DJPriorityQueue(maxheap:false, graph.OrderBy(x=> x.distance).ToList());
 
         while (pq.Count > 0)
         {
             curVertx = pq.Dequeue();
+            
             foreach(var adjVert in curVertx)
             {
                 totalDistance = curVertx.distance + curVertx.GetNeighborWeight(adjVert); // accumulated dist + edge weight

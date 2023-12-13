@@ -2,7 +2,7 @@
 
 //_7_7_LadderGraph.Run();
 
-//_7_9_BFS.PathFromTo(_7_7_LadderGraph.Run(debug:false),"sage","fool");
+//_7_9_BFS.Run();
 
 //_7_12_TourGraph.Run(size:8);
 
@@ -17,7 +17,6 @@
 
 //_7_20_Dijkstra.Run();
 
-_7_22_Prim.Run();
+//_7_22_Prim.Run();
 
-// not even opening chapter 8 considering the dip of clarity and quality this book took in this god 
-// forsaken chapter rivaled only by depth of the mariana trench - exactly where it belongs
+_Exercise_17.Run();
