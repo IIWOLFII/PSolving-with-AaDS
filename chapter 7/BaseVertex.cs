@@ -17,6 +17,11 @@ public abstract class BaseVertex<T> : IEnumerable<T> where T: BaseVertex<T>
     {
         return adj[vert];
     }
+    public int? TryGetNeighborWeight (T vert)
+    {
+        if (adj.ContainsKey(vert)) return adj[vert];
+        return null;
+    }
 
     public List<T> GetNeighbors() // just iterate with foreach tbh
     {
