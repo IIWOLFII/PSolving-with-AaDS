@@ -18,7 +18,6 @@ public static class _7_9_BFS
     ///</params>
     public static Graph<SearchVertex> BFS(Graph<SearchVertex> graph, string startKey)
     {
-        // i need a way to clone the graph so we dont taint original https://agiledeveloper.com/articles/cloning072002.htm todo
         var targetvert = graph.Get_vertex(startKey);
         targetvert.distance = 0;
         targetvert.previous = null;
@@ -35,7 +34,6 @@ public static class _7_9_BFS
                 {
                     neighbor.state = verStates.discovered;
                     neighbor.distance = curVert.distance + 1;
-                    //neighbor.distance = curVert.distance + curVert.GetNeighborWeight(neighbor); ex17
                     neighbor.previous = curVert;
                     queueVerts.Enqueue(neighbor);
                 }

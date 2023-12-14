@@ -6,7 +6,7 @@ public static class _7_12_TourGraph
     {
         var graph = BuildKnightGraph(size);
         foreach(var vert in graph){
-            GenLegalEdges(vert,graph);
+            GenLegalEdges(vert,graph,moves);
         }
 
         // int sum = 0;
@@ -33,7 +33,7 @@ public static class _7_12_TourGraph
         return graph;
     }
 
-    private static void GenLegalEdges(SearchVertex vert, Graph<SearchVertex> graph)
+    public static void GenLegalEdges(SearchVertex vert, Graph<SearchVertex> graph, (int x,int y)[] moves)
     {
         foreach(var move in moves){
             string moveXY = $"{Char.GetNumericValue(vert.key[0]) +move.x}:{Char.GetNumericValue(vert.key[2])+move.y}";
