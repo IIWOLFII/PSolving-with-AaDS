@@ -21,4 +21,7 @@
 
 //_Exercise_17.Run();
 
-_Exercise_18.Run();
+//_Exercise_18.Run();
+
+_Exercise_19.Run(5,3,2);
+
